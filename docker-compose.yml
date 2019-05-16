@@ -17,8 +17,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
-      - ${DB_PATH_HOST}:/var/lib/mysql
-#    command: mysql -uroot -p123456 < ${APP_PATH_CONTAINER}/sendpulsetesttask/sendpulsetask.sql
+#      - ${DB_PATH_HOST}:/var/lib/mysql
+#      - ./db-dump:/docker-entrypoint-initdb.d
+      - ./db-dump:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer

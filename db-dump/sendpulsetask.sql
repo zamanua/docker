@@ -54,8 +54,8 @@ CREATE TABLE `user` (
   `name` varchar(50) NOT NULL,
   `login` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `session` varchar(50) NOT NULL,
-  `cookie` varchar(50) NOT NULL
+  `session` varchar(50) NOT NULL DEFAULT '',
+  `cookie` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

@@ -28,7 +28,7 @@ class Base
         self::$oDb->SetFetchMode(ADODB_FETCH_ASSOC);
         date_default_timezone_set('Europe/Kiev');
         self::$oDb->_Execute("SET `time_zone`='".date('P')."'");
-        // self::$oDb->debug=true;
+        //  self::$oDb->debug=true;
 
         require './vendor/smarty/smarty/libs/Smarty.class.php';
         self::$oTpl = new Smarty;
