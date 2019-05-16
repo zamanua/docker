@@ -13,7 +13,7 @@ class ListTodo
 
         Base::$aPage['title']='list todo';
 
-        $aData = Base::$oDb->GetAll("select * from test 
+        $aData = Base::$oDb->GetAll("select * from list_todo 
             where id_user='".Base::$aUser['id']."' 
             order by id_parent asc, post_date asc
         ");
@@ -48,16 +48,16 @@ class ListTodo
             
 
             if($_REQUEST['id']) {
-                Base::$oDb->AutoExecute('test',$_REQUEST['data'],'UPDATE', " id='".$_REQUEST['id']."' ");
+                Base::$oDb->AutoExecute('list_todo',$_REQUEST['data'],'UPDATE', " id='".$_REQUEST['id']."' ");
             } else {
-                Base::$oDb->AutoExecute('test',$_REQUEST['data']);
+                Base::$oDb->AutoExecute('list_todo',$_REQUEST['data']);
             }
             
             Base::Redirect('/list');
         }
 
         if ($iId) {
-            $aExist=Base::$oDb->GetRow("select * from test where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
+            $aExist=Base::$oDb->GetRow("select * from list_todo where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
             if($aExist) {
                 $aExist['post_date']=str_replace(" ", 'T', $aExist['post_date']);
                 Base::$aPage['title']='edit todo';
@@ -94,28 +94,28 @@ class ListTodo
     public static function ListDelete($iId) {
         Base::NeedAuth();
 
-        Base::$oDb->Execute("delete from test where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
+        Base::$oDb->Execute("delete from list_todo where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
         Base::Redirect('/list');
     }
 
     public static function ListMark($iId) {
         Base::NeedAuth();
 
-        $aCurrentLine=Base::$oDb->GetRow("select * from test where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
+        $aCurrentLine=Base::$oDb->GetRow("select * from list_todo where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
         if($aCurrentLine) {
-            Base::$oDb->Execute("update test 
+            Base::$oDb->Execute("update list_todo 
                 set checked='1'
                 where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
 
             if($aCurrentLine['id_parent']==0) {
-                Base::$oDb->Execute("update test 
+                Base::$oDb->Execute("update list_todo 
                     set checked='1'
                     where id_parent='".$iId."' and id_user='".Base::$aUser['id']."' ");
             } else {
-                $iParentCount=Base::$oDb->GetOne("select count(*) from test where id_parent='".$aCurrentLine['id_parent']."' ");
-                $iCheckedCount=Base::$oDb->GetOne("select count(*) from test where id_parent='".$aCurrentLine['id_parent']."' and checked='1' ");
+                $iParentCount=Base::$oDb->GetOne("select count(*) from list_todo where id_parent='".$aCurrentLine['id_parent']."' ");
+                $iCheckedCount=Base::$oDb->GetOne("select count(*) from list_todo where id_parent='".$aCurrentLine['id_parent']."' and checked='1' ");
                 if($iParentCount==$iCheckedCount) {
-                    Base::$oDb->Execute("update test 
+                    Base::$oDb->Execute("update list_todo 
                     set checked='1'
                     where id='".$aCurrentLine['id_parent']."' and id_user='".Base::$aUser['id']."' ");
                 }
@@ -128,18 +128,18 @@ class ListTodo
     public static function ListUnmark($iId) {
         Base::NeedAuth();
 
-        $aCurrentLine=Base::$oDb->GetRow("select * from test where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
+        $aCurrentLine=Base::$oDb->GetRow("select * from list_todo where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
         if($aCurrentLine) {
-            Base::$oDb->Execute("update test 
+            Base::$oDb->Execute("update list_todo 
                 set checked='0'
                 where id='".$iId."' and id_user='".Base::$aUser['id']."' ");
 
             if($aCurrentLine['id_parent']==0) {
-                Base::$oDb->Execute("update test 
+                Base::$oDb->Execute("update list_todo 
                     set checked='0'
                     where id_parent='".$iId."' and id_user='".Base::$aUser['id']."' ");
             } else {
-                Base::$oDb->Execute("update test 
+                Base::$oDb->Execute("update list_todo 
                     set checked='0'
                     where id='".$aCurrentLine['id_parent']."' and id_user='".Base::$aUser['id']."' ");
             }

@@ -18,6 +18,7 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
       - $(DB_PATH_HOST):/var/lib/mysql
+    command: mysql -uroot -p123456 < $(APP_PATH_CONTAINER)/sendpulsetesttask/sendpulsetask.sql
 
   adminer:
     image: adminer
