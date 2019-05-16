@@ -23,7 +23,7 @@ class Base
 
         include('./vendor/adodb/adodb-php/adodb.inc.php');
         self::$oDb = &ADONewConnection('mysqlt', 'transaction : pear');
-        self::$oDb->Connect('127.0.0.1:3306','root','123456','sendpulsetask');
+        self::$oDb->Connect('db:3306','root','123456','sendpulsetask');
         self::$oDb->_Execute("/*!40101 SET NAMES 'utf8' */");
         self::$oDb->SetFetchMode(ADODB_FETCH_ASSOC);
         date_default_timezone_set('Europe/Kiev');
