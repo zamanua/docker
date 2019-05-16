@@ -31,5 +31,5 @@ services:
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     working_dir: ${APP_PATH_CONTAINER}
-    command: composer install && mysql-uroot -p123456 sendpulsetesttask < sendpulsetask.sql
+    command: composer install
 
